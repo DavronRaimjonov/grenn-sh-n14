@@ -44,7 +44,11 @@ const Navbar = () => {
           <img src={shop} alt="" />
         </Badge>
         <button
-          onClick={() => dispatch(setAuthorizationModalVisiblty())}
+          onClick={() =>
+            dispatch(
+              setAuthorizationModalVisiblty({ open: true, isLoading: false })
+            )
+          }
           className="w-[100px] h-[35px] bg-[#46a358] text-white rounded-md"
         >
           <LoginOutlined /> Login
