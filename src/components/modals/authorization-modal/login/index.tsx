@@ -2,52 +2,26 @@ import { Form, Input } from "antd";
 import type { FieldType } from "../../../../@types";
 import googleSvg from "../../../../assets/icons/google.svg";
 import facebookSvg from "../../../../assets/icons/facebook.svg";
-import { useAxios } from "../../../../hooks/useAxios";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useReduxDispatch, useReduxSelctor } from "../../../../hooks/useRedux";
 import { setAuthorizationModalVisiblty } from "../../../../redux/modal-slice";
-import useSignIn from "react-auth-kit/hooks/useSignIn";
-import { signInWithGoogle } from "../../../../config";
+import {
+  loginWithGoogle,
+  useLogin,
+} from "../../../../hooks/useQuery/useQueryAction";
 const Login = () => {
-  const axios = useAxios();
   const { authorizationModalVisiblty } = useReduxSelctor(
     (state) => state.modalSlice
   );
-  const signIn = useSignIn();
   const dispatch = useReduxDispatch();
+  const { mutate } = useLogin();
+  const { mutate: mutateGoogle } = loginWithGoogle();
   const onFinish = (e: FieldType) => {
     dispatch(setAuthorizationModalVisiblty({ open: true, isLoading: true }));
-    axios({ url: "/user/sign-in", body: e, method: "POST" })
-      .then((data) => {
-        dispatch(
-          setAuthorizationModalVisiblty({ open: false, isLoading: false })
-        );
-        const { token, user } = data.data;
-        localStorage.setItem("token", token);
-        signIn({
-          auth: {
-            token,
-            type: "Bearer",
-          },
-
-          userState: user,
-        });
-      })
-      .catch(() => {
-        dispatch(
-          setAuthorizationModalVisiblty({ open: true, isLoading: false })
-        );
-      });
+    mutate({ data: e });
   };
 
-  const signInGoogle = async () => {
-    const response = await signInWithGoogle();
-    await axios({
-      url: "/user/sign-in/google",
-      method: "POST",
-      body: { email: response.user.email },
-    }).then((data) => console.log(data));
-  };
+  const signInGoogle = () => mutateGoogle();
   const icon_style: string =
     "border h-[40px] rounded-md flex items-center justify-center gap-3 mb-4 cursor-pointer";
   return (
@@ -108,5 +82,3 @@ const Login = () => {
 export default Login;
 // raimjonov05@mail.ru
 // 12345678
-//https://beckend-n14.onrender.com/api/user/sign-in?access_token=64bebc1e2c6d3f056a8c85b7
-//https://beckend-n14.onrender.com/api/user/sign-in?access_token=64bebc1e2c6d3f056a8c85b7
