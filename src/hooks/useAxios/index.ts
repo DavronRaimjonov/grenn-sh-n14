@@ -23,7 +23,7 @@ export const useAxios = () => {
         access_token: "64bebc1e2c6d3f056a8c85b7",
         ...params,
       },
-    }).then((data) => data.data);
+    }).then((data) => data.data.data);
     // .catch(() => {
     //   console.log("error");
     // });

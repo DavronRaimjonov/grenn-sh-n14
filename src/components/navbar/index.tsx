@@ -15,7 +15,7 @@ const Navbar = () => {
   const { pathname } = useLocation();
   const nav_link_style = `text-[16px] cursor-pointer`;
   return (
-    <header className="flex items-center justify-between py-5">
+    <header className="flex items-center justify-between py-5 border-b mb-5">
       <nav onClick={() => navigate("/")} className="cursor-pointer">
         <img src={logo} alt="" />
       </nav>

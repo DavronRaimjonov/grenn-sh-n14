@@ -5,7 +5,10 @@ import facebookSvg from "../../../../assets/icons/facebook.svg";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useReduxDispatch, useReduxSelctor } from "../../../../hooks/useRedux";
 import { notificationApi } from "../../../../generic/notification";
-import { useReigster } from "../../../../hooks/useQuery/useQueryAction";
+import {
+  useRegisterMutate,
+  useRegisterWithGoogle,
+} from "../../../../hooks/useQuery/useQueryAction";
 import { setAuthorizationModalVisiblty } from "../../../../redux/modal-slice";
 
 const Register = () => {
@@ -13,9 +16,7 @@ const Register = () => {
     (state) => state.modalSlice
   );
   const notify = notificationApi();
-
-  const signInGoogle = () => {};
-  const { mutate } = useReigster();
+  const { mutate } = useRegisterMutate();
   const dispatch = useReduxDispatch();
   const icon_style: string =
     "border h-[40px] rounded-md flex items-center justify-center gap-3 mb-4 cursor-pointer";
@@ -32,6 +33,7 @@ const Register = () => {
       },
     });
   };
+  const { mutate: registerWithGoogle } = useRegisterWithGoogle();
   return (
     <div className="mt-2">
       <Form
@@ -108,7 +110,7 @@ const Register = () => {
         <p className="w-[40%]text-[#3D3D3D] text-[13px]">Or Register with</p>
         <div className="w-[30%] h-[2px] bg-[#EAEAEA]"></div>
       </div>
-      <div onClick={signInGoogle} className={icon_style}>
+      <div onClick={() => registerWithGoogle()} className={icon_style}>
         <img src={googleSvg} alt="" />
         Register with Google
       </div>

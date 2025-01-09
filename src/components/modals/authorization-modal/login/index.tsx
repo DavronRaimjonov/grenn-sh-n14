@@ -6,16 +6,16 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { useReduxDispatch, useReduxSelctor } from "../../../../hooks/useRedux";
 import { setAuthorizationModalVisiblty } from "../../../../redux/modal-slice";
 import {
-  loginWithGoogle,
-  useLogin,
+  useLoginWithGoogle,
+  useLoginMutate,
 } from "../../../../hooks/useQuery/useQueryAction";
 const Login = () => {
   const { authorizationModalVisiblty } = useReduxSelctor(
     (state) => state.modalSlice
   );
   const dispatch = useReduxDispatch();
-  const { mutate } = useLogin();
-  const { mutate: mutateGoogle } = loginWithGoogle();
+  const { mutate } = useLoginMutate();
+  const { mutate: mutateGoogle } = useLoginWithGoogle();
   const onFinish = (e: FieldType) => {
     dispatch(setAuthorizationModalVisiblty({ open: true, isLoading: true }));
     mutate({ data: e });

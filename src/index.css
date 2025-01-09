@@ -8,7 +8,7 @@
   box-sizing: border-box;
   font-family: "Inter", sans-serif;
 }
-/* .slick-dots li button {
+.slick-dots li button {
   background-color: #46a358 !important;
   opacity: 30%;
 }
@@ -38,4 +38,4 @@
 }
 .ant-tabs .ant-tabs-ink-bar {
   background: #46a358 !important;
-} */
+}

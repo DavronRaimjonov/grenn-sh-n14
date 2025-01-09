@@ -1,11 +1,7 @@
-import Navbar from "../../components/navbar";
+import HomeComponent from "../../components/home";
 
 const Home = () => {
-  return (
-    <div className="w-[90%] m-auto">
-      <Navbar />
-    </div>
-  );
+  return <HomeComponent />;
 };
 
 export default Home;
