@@ -39,3 +39,6 @@
 .ant-tabs .ant-tabs-ink-bar {
   background: #46a358 !important;
 }
+.ant-select-selector {
+  border-color: #46a358 !important;
+}

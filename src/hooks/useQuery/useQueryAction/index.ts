@@ -5,8 +5,8 @@ import { setAuthorizationModalVisiblty } from "../../../redux/modal-slice";
 import { notificationApi } from "../../../generic/notification";
 import { signInWithGoogle } from "../../../config";
 import { useReduxDispatch } from "../../useRedux";
-import useSignIn from "react-auth-kit/hooks/useSignIn";
 import { AuthUser } from "../../../@types";
+import { useSignIn } from "react-auth-kit";
 const useLoginMutate = () => {
   const dispatch = useDispatch();
   const axios = useAxios();
@@ -15,20 +15,18 @@ const useLoginMutate = () => {
   return useMutation({
     mutationFn: ({ data }: { data: object }) =>
       axios({ url: "/user/sign-in", body: data, method: "POST" }),
-    onSuccess: ({ data }: { data: { token: string; user: AuthUser } }) => {
-      const { token } = data;
+    onSuccess: (data: { token: string; user: AuthUser }): void => {
+
+      const { token, user } = data;
       dispatch(
         setAuthorizationModalVisiblty({ open: false, isLoading: false })
       );
       localStorage.setItem("token", token);
-      console.log(data);
       signIn({
-        auth: {
-          token: "sadsadadasdasdasd",
-          type: "Bearer",
-        },
-
-        userState: { user: "salom" },
+        token,
+        expiresIn: 3600,
+        tokenType: "Bearer",
+        authState: user,
       });
       notify("login");
     },

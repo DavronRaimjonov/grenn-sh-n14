@@ -6,10 +6,8 @@ import { Badge } from "antd";
 import { BellOutlined, LoginOutlined } from "@ant-design/icons";
 import { useReduxDispatch } from "../../hooks/useRedux";
 import { setAuthorizationModalVisiblty } from "../../redux/modal-slice";
-// import { useDispatch } from "react-redux";
 
 const Navbar = () => {
-  // const dispatch = useDispatch
   const dispatch = useReduxDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -51,7 +49,9 @@ const Navbar = () => {
           }
           className="w-[100px] h-[35px] bg-[#46a358] text-white rounded-md"
         >
-          <LoginOutlined /> Login
+          <p>
+            <LoginOutlined /> Login
+          </p>
         </button>
       </nav>
     </header>

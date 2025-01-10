@@ -6,7 +6,6 @@ const Discount = () => {
     pathname: "discount",
     url: "/features/discount",
   });
-  console.log(data);
   return (
     <div className="w-full bg-[#eef7f1] text-center px-4 py-[20px]">
       <h2 className="text-[#46A358] text-[30px] font-normal leading-[40px]">
