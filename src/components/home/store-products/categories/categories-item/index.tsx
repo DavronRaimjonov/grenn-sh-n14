@@ -1,13 +1,23 @@
 import type { FC } from "react";
 import { CategoryType } from "../../../../../@types";
-import { searchParams } from "../../../../../generic/searchParams";
+import { useSearchParamsHandler } from "../../../../../generic/searchParams";
 
 const CategoriesItem: FC<CategoryType> = (props) => {
   //    text-[#46A358] font-bold
-  const { setParam, getParam } = searchParams();
+  const { setParam, getParam } = useSearchParamsHandler();
   const typeParam: string = getParam("type") || "all-plants";
+  const typePrice: string = getParam("sort") || "default-sorting";
+  let range_min: number = Number(getParam("range_min")) || 0;
+  let range_max: number = Number(getParam("range_max")) || 1000;
+
   const setCatogry = () => {
-    setParam({ category: props.route_path, type: typeParam });
+    setParam({
+      category: props.route_path,
+      type: typeParam,
+      sort: typePrice,
+      range_min,
+      range_max,
+    });
   };
 
   return (
