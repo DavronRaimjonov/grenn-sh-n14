@@ -5,8 +5,10 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const Card: FC<CartType> = (props) => {
+  const navigate = useNavigate();
   const style_icons: string =
     "bg-[#FFFFFF] w-[35px] h-[35px] flex rounded-lg justify-center items-center  cursor-pointer text-[20px]";
   return (
@@ -24,7 +26,10 @@ const Card: FC<CartType> = (props) => {
           <div className={style_icons}>
             <HeartOutlined className="text-[22px]" />
           </div>
-          <div className={style_icons}>
+          <div
+            onClick={() => navigate(`/shop/${props.category}/${props._id}`)}
+            className={style_icons}
+          >
             <SearchOutlined className="text-[22px]" />
           </div>
         </div>

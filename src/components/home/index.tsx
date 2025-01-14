@@ -5,7 +5,6 @@ import StoreProducts from "./store-products";
 const HomeComponent = () => {
   return (
     <div className="w-[90%] m-auto">
-      <Navbar />
       <Hero />
       <StoreProducts />
     </div>

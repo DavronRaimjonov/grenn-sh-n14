@@ -7,8 +7,8 @@ const CategoriesItem: FC<CategoryType> = (props) => {
   const { setParam, getParam } = useSearchParamsHandler();
   const typeParam: string = getParam("type") || "all-plants";
   const typePrice: string = getParam("sort") || "default-sorting";
-  let range_min: number = Number(getParam("range_min")) || 0;
-  let range_max: number = Number(getParam("range_max")) || 1000;
+  const range_min: number = Number(getParam("range_min")) || 0;
+  const range_max: number = Number(getParam("range_max")) || 1000;
 
   const setCatogry = () => {
     setParam({

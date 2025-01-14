@@ -4,8 +4,8 @@ import { Slider } from "antd";
 
 const PriceParam = () => {
   const { getParam, setParam } = useSearchParamsHandler();
-  let range_min: number = Number(getParam("range_min")) || 0;
-  let range_max: number = Number(getParam("range_max")) || 1000;
+  const range_min: number = Number(getParam("range_min")) || 0;
+  const range_max: number = Number(getParam("range_max")) || 1000;
   const typeParam: string = getParam("type") || "all-plants";
   const categoryPath: string = getParam("category") || "house-plants";
   const typePrice: string = getParam("sort") || "default-sorting";

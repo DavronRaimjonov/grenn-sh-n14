@@ -10,8 +10,8 @@ const Products = () => {
   const categoryPath: string = getParam("category") || "house-plants";
   const type: string = getParam("type") || "house-plants";
   const typePrice: string = getParam("sort") || "default-sorting";
-  let range_min: number = Number(getParam("range_min")) || 0;
-  let range_max: number = Number(getParam("range_max")) || 1000;
+  const range_min: number = Number(getParam("range_min")) || 0;
+  const range_max: number = Number(getParam("range_max")) || 1000;
   const {
     data,
     isLoading,
