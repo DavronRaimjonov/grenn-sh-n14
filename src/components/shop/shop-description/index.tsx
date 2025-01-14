@@ -1,40 +1,35 @@
-import type { FC } from "react";
-import type { DataType } from "../../../@types";
-import { Rate } from "antd";
-import { useQueryHandler } from "../../../hooks/useQuery";
-import AvatarItem from "../avatar";
+import { FC, useState } from "react";
+import { DataType } from "../../../@types";
 
-const ShopDescription: FC<DataType> = ({ data, isLoading, isError }) => {
+const ShopDescription: FC<DataType> = ({ data }) => {
+  const [state, setState] = useState<boolean>(true);
+
   return (
-    <section>
-      <div className="border-b-2 pb-5  border-[#A6D1AC] flex items-end justify-between">
-        {isLoading || isError ? (
-          "loading"
-        ) : (
-          <div className="flex items-center gap-5">
-            <AvatarItem created_by={data?.created_by as string} />
-            <div>
-              <h3 className="text-[#3D3D3D] text-[28px] font-bold">
-                {data?.title}
-              </h3>
-              <p className="font-bold text-[#46A358] text-[22px]">
-                ${data?.price}
-              </p>
-            </div>
-          </div>
-        )}
-        <div>
-          <Rate />
-          <p>{data?.comments.length} Customer Review</p>
-        </div>
+    <div>
+      <div className="border-b-2 border-[#46A358] mt-20 flex gap-5 pb-5 ">
+        <h3
+          onClick={() => setState(true)}
+          className="text-[18px] cursor-pointer"
+        >
+          Product Description
+        </h3>
+        <h3
+          onClick={() => setState(false)}
+          className="text-[18px] cursor-pointer"
+        >
+          Reviews (0)
+        </h3>
       </div>
       <div>
-        <h3>Short Description:</h3>
-        <p
-          dangerouslySetInnerHTML={{ __html: data?.description as string }}
-        ></p>
+        {state ? (
+          <div
+            dangerouslySetInnerHTML={{ __html: data?.description as string }}
+          ></div>
+        ) : (
+          <div>Reviews</div>
+        )}
       </div>
-    </section>
+    </div>
   );
 };
 
