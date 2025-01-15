@@ -82,6 +82,7 @@ export interface CartType {
   views: number;
   __v: number;
   _id: string;
+  count?: number | undefined;
 }
 export interface TitleCategoryType {
   id: number;
@@ -92,4 +93,34 @@ export interface DataType {
   isLoading: boolean;
   isError: boolean;
   data?: CartType;
+}
+export interface InfoMockItemType {
+  id: number;
+  title: string;
+  description: string;
+  img: string;
+  vektor: string;
+}
+export interface PostMockItemType {
+  id: number;
+  title: string;
+  subTitle: string;
+  description: string;
+  img: string;
+}
+export interface FooterLinksType {
+  id: number;
+  title: string;
+  link1: string;
+  link2: string;
+  link3: string;
+  link4?: string;
+  link5?: string;
+}
+export interface AdviceMockItemType {
+  id: number;
+  title: string;
+  description: string;
+  img: string;
+  border: boolean;
 }

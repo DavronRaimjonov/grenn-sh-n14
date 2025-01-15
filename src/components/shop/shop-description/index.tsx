@@ -9,13 +9,13 @@ const ShopDescription: FC<DataType> = ({ data }) => {
       <div className="border-b-2 border-[#46A358] mt-20 flex gap-5 pb-5 ">
         <h3
           onClick={() => setState(true)}
-          className="text-[18px] cursor-pointer"
+          className={`text-[18px] cursor-pointer ${state && "text-[#46A358]"}`}
         >
           Product Description
         </h3>
         <h3
           onClick={() => setState(false)}
-          className="text-[18px] cursor-pointer"
+          className={`text-[18px] cursor-pointer ${!state && "text-[#46A358]"}`}
         >
           Reviews (0)
         </h3>

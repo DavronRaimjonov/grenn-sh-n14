@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import modalSlice from "./modal-slice";
+import shopSlice from "./shop-slice";
 export const store = configureStore({
-  reducer: { modalSlice },
+  reducer: { modalSlice, shopSlice },
 });
 
 export type DispatchType = typeof store.dispatch;

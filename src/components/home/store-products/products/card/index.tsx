@@ -6,9 +6,14 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useReduxDispatch } from "../../../../../hooks/useRedux";
+import { getProductShop } from "../../../../../redux/shop-slice";
+import { notificationApi } from "../../../../../generic/notification";
 
 const Card: FC<CartType> = (props) => {
   const navigate = useNavigate();
+  const dispatch = useReduxDispatch();
+  const notify = notificationApi();
   const style_icons: string =
     "bg-[#FFFFFF] w-[35px] h-[35px] flex rounded-lg justify-center items-center  cursor-pointer text-[20px]";
   return (
@@ -20,7 +25,13 @@ const Card: FC<CartType> = (props) => {
           className="w-4/5 h-[80%] max-sm:h-[100%]"
         />
         <div className="hidden items-center absolute bottom-4 gap-5  group-hover:flex">
-          <div className={style_icons}>
+          <div
+            onClick={() => {
+              dispatch(getProductShop(props));
+              notify("add");
+            }}
+            className={style_icons}
+          >
             <ShoppingCartOutlined className="text-[22px]" />
           </div>
           <div className={style_icons}>

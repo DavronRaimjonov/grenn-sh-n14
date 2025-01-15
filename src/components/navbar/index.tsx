@@ -1,16 +1,17 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/icons/logo.svg";
 import search from "../../assets/icons/search.svg";
-import shop from "../../assets/icons/shop.svg";
+import shop_img from "../../assets/icons/shop.svg";
 import { Badge } from "antd";
 import { BellOutlined, LoginOutlined } from "@ant-design/icons";
-import { useReduxDispatch } from "../../hooks/useRedux";
+import { useReduxDispatch, useReduxSelctor } from "../../hooks/useRedux";
 import { setAuthorizationModalVisiblty } from "../../redux/modal-slice";
 
 const Navbar = () => {
   const dispatch = useReduxDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { shop } = useReduxSelctor((state) => state.shopSlice);
   const nav_link_style = `text-[16px] cursor-pointer`;
   return (
     <header className=" w-[90%] m-auto flex items-center justify-between py-5 border-b mb-5">
@@ -29,7 +30,7 @@ const Navbar = () => {
         <h3
           onClick={() => navigate("/blog")}
           className={`${nav_link_style} ${
-            pathname !== "/" && "text-[#46a358]"
+            pathname === "/blog" && "text-[#46a358]"
           }`}
         >
           Blog
@@ -38,9 +39,12 @@ const Navbar = () => {
       <nav className="flex items-center gap-8">
         <img className="cursor-pointer" src={search} alt="" />
         <BellOutlined className="text-[24px] cursor-pointer" />
-        <Badge className="cursor-pointer" count={1}>
-          <img src={shop} alt="" />
+        <Badge className="cursor-pointer" count={shop.length}>
+          <button onClick={() => navigate("/products-shop")}>
+            <img src={shop_img} alt="" />
+          </button>
         </Badge>
+
         <button
           onClick={() =>
             dispatch(

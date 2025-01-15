@@ -1,4 +1,6 @@
 import Hero from "./hero";
+import Info from "./info/info";
+import Posts from "./posts/posts";
 import StoreProducts from "./store-products";
 
 const HomeComponent = () => {
@@ -6,6 +8,8 @@ const HomeComponent = () => {
     <div className="w-[90%] m-auto">
       <Hero />
       <StoreProducts />
+      <Info />
+      <Posts />
     </div>
   );
 };
