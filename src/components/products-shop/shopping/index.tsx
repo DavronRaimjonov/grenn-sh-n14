@@ -1,9 +1,12 @@
+import { Empty } from "antd";
 import { CartType } from "../../../@types";
 import { useReduxSelctor } from "../../../hooks/useRedux";
 import Card from "./card";
+import { useNavigate } from "react-router-dom";
 
 const Shopping = () => {
   const { shop } = useReduxSelctor((state) => state.shopSlice);
+  const navigate = useNavigate();
   return (
     <div>
       <div className="flex item-center justify-between text-start border-b border-[#46A358] pb-3">
@@ -21,9 +24,19 @@ const Shopping = () => {
         </h2>
         <h3>Total</h3>
       </div>
-      {shop.map((value: CartType) => (
-        <Card key={value._id} {...value} />
-      ))}
+      {shop.length ? (
+        shop.map((value: CartType) => <Card key={value._id} {...value} />)
+      ) : (
+        <div className="flex items-center justify-center flex-col">
+          <Empty />
+          <button
+            onClick={() => navigate("/")}
+            className="bg-[#46A358] flex rounded-md items-center justify-center gap-1 text-base text-white h-[40px] px-[10px] mt-[10px]"
+          >
+            Lets shop{" "}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

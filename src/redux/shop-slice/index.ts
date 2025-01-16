@@ -13,13 +13,14 @@ export const shopSlice = createSlice({
   initialState,
   reducers: {
     getProductShop(state, { payload }) {
-      let findData = state.shop.find((item) => item._id === payload._id);
+      const findData = state.shop.find((item) => item._id === payload._id);
       if (findData) {
         state.shop = state.shop.map((value) => {
           if (value._id === payload._id) {
             return {
               ...value,
               count: Number(value.count) + 1,
+              userPrice: (Number(value.count) + 1) * value.price,
             };
           }
           return value;
@@ -28,7 +29,10 @@ export const shopSlice = createSlice({
         return;
       }
 
-      state.shop = [...state.shop, { ...payload, count: 1 }];
+      state.shop = [
+        ...state.shop,
+        { ...payload, count: 1, userPrice: payload.price },
+      ];
       setStore("shop", state.shop);
     },
     increment(state, { payload }) {
@@ -37,6 +41,7 @@ export const shopSlice = createSlice({
           return {
             ...value,
             count: Number(value.count) + 1,
+            userPrice: (Number(value.count) + 1) * value.price,
           };
         }
         return value;
@@ -49,6 +54,7 @@ export const shopSlice = createSlice({
           return {
             ...value,
             count: Number(value.count) - 1,
+            userPrice: (Number(value.count) - 1) * value.price,
           };
         }
         return value;
@@ -61,5 +67,6 @@ export const shopSlice = createSlice({
     },
   },
 });
-export const { getProductShop, increment, decrement, deleteShopCard } = shopSlice.actions;
+export const { getProductShop, increment, decrement, deleteShopCard } =
+  shopSlice.actions;
 export default shopSlice.reducer;

@@ -7,7 +7,11 @@ type NotificationType =
   | 406
   | 409
   | "add"
-  | "delete";
+  | "delete"
+  | "coupon"
+  | "coupon_404"
+  | "succses_coupon"
+  | "shop_not";
 
 const notificationApi = () => {
   const nottify = (props: NotificationType) => {
@@ -35,6 +39,15 @@ const notificationApi = () => {
         });
       case 409:
         return notification.error({ message: "Login or passowr wrong" });
+      case "coupon":
+        return notification.error({ message: "Place eneter coupon" });
+      case "coupon_404":
+        return notification.error({ message: "Coupon is not defined !" });
+      case "succses_coupon":
+        return notification.success({ message: "Coupon success !" });
+      case "shop_not":
+        return notification.error({ message: "Please place an order !" });
+      //
       default:
         break;
     }

@@ -5,8 +5,9 @@ import { setAuthorizationModalVisiblty } from "../../../redux/modal-slice";
 import { notificationApi } from "../../../generic/notification";
 import { signInWithGoogle } from "../../../config";
 import { useReduxDispatch } from "../../useRedux";
-import { AuthUser } from "../../../@types";
+import { AuthUser, CouponType } from "../../../@types";
 import { useSignIn } from "react-auth-kit";
+import { setCoupon, setIsLoading } from "../../../redux/coupon-slice";
 const useLoginMutate = () => {
   const dispatch = useDispatch();
   const axios = useAxios();
@@ -16,7 +17,6 @@ const useLoginMutate = () => {
     mutationFn: ({ data }: { data: object }) =>
       axios({ url: "/user/sign-in", body: data, method: "POST" }),
     onSuccess: (data: { token: string; user: AuthUser }): void => {
-
       const { token, user } = data;
       dispatch(
         setAuthorizationModalVisiblty({ open: false, isLoading: false })
@@ -115,9 +115,36 @@ const useRegisterWithGoogle = () => {
     },
   });
 };
+
+const useGetCoupon = () => {
+  const axios = useAxios();
+  const notify = notificationApi();
+  const dispatch = useReduxDispatch();
+  return useMutation({
+    mutationFn: (data: object) => {
+      dispatch(setIsLoading(true));
+      return axios({
+        url: "/features/coupon",
+        params: data,
+      });
+    },
+    onSuccess: (data: CouponType) => {
+      notify("succses_coupon");
+      dispatch(setIsLoading(false));
+      dispatch(setCoupon(data.discount_for));
+    },
+    onError: () => {
+      notify("coupon_404");
+      dispatch(setIsLoading(false));
+    },
+  });
+};
 export {
   useLoginMutate,
   useLoginWithGoogle,
   useRegisterMutate,
   useRegisterWithGoogle,
+  useGetCoupon,
 };
+// https://beckend-n14.onrender.com/api/features/coupon?access_token=64bebc1e2c6d3f056a8c85b7&coupon_code=AEMA_MEM
+// https://beckend-n14.onrender.com/api/features/coupon?access_token=64bebc1e2c6d3f056a8c85b7&coupon_code=AEMA_MEM

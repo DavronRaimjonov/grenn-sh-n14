@@ -9,9 +9,17 @@ import {
 } from "../../../../redux/shop-slice";
 import { notificationApi } from "../../../../generic/notification";
 
-const Card: FC<CartType> = ({ main_image, title, _id, price, count }) => {
+const Card: FC<CartType> = ({
+  main_image,
+  title,
+  _id,
+  price,
+  count,
+  userPrice,
+}) => {
   const dispatch = useReduxDispatch();
   const notify = notificationApi();
+  const disable = Number(count) <= 1 ? true : false;
   return (
     <div className="my-5 bg-[#eee] p-2 flex items-center justify-between rounded-sm">
       <div className="flex items-center gap-4 w-[40%]">
@@ -28,6 +36,7 @@ const Card: FC<CartType> = ({ main_image, title, _id, price, count }) => {
       </div>
       <div className="flex items-center gap-3  w-[20%]">
         <button
+          disabled={disable}
           onClick={() => dispatch(decrement(_id))}
           className="w-[25px] h-[25px] bg-[#46A358] rounded-full text-white"
         >
@@ -42,7 +51,7 @@ const Card: FC<CartType> = ({ main_image, title, _id, price, count }) => {
         </button>
       </div>
       <div className="text-[#727272] text-[16px] font-medium   w-[20%]">
-        ${price}
+        ${Number(userPrice).toFixed(2)}
       </div>
       <DeleteFilled
         onClick={() => {

@@ -83,6 +83,7 @@ export interface CartType {
   __v: number;
   _id: string;
   count?: number | undefined;
+  userPrice?: number;
 }
 export interface TitleCategoryType {
   id: number;
@@ -123,4 +124,10 @@ export interface AdviceMockItemType {
   description: string;
   img: string;
   border: boolean;
+}
+export interface CouponType {
+  code: string;
+  discount_for: number;
+  id: number;
+  title: string;
 }
