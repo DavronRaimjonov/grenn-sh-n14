@@ -11,7 +11,9 @@ type NotificationType =
   | "coupon"
   | "coupon_404"
   | "succses_coupon"
-  | "shop_not";
+  | "shop_not"
+  | "like"
+  | "disLike";
 
 const notificationApi = () => {
   const nottify = (props: NotificationType) => {
@@ -47,6 +49,10 @@ const notificationApi = () => {
         return notification.success({ message: "Coupon success !" });
       case "shop_not":
         return notification.error({ message: "Please place an order !" });
+      case "like":
+        return notification.success({ message: "Added like !" });
+      case "disLike":
+        return notification.success({ message: "Deleted like !" });
       //
       default:
         break;

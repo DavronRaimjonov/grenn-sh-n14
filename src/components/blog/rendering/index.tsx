@@ -40,8 +40,9 @@ const Rendering = () => {
       }
     }
   };
+
   const { blog_id_loading } = useLoader();
-  let loading = isLoading || isError || isErrorUser || isLoadingUser;
+  const loading = isLoading || isError || isErrorUser || isLoadingUser;
   return (
     <section className="w-[70%] m-auto py-10">
       {loading ? (

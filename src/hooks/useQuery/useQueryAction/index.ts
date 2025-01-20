@@ -6,28 +6,29 @@ import { notificationApi } from "../../../generic/notification";
 import { signInWithGoogle } from "../../../config";
 import { useReduxDispatch } from "../../useRedux";
 import { AuthUser, CouponType } from "../../../@types";
-import { useSignIn } from "react-auth-kit";
 import { setCoupon, setIsLoading } from "../../../redux/coupon-slice";
+import { useSignIn } from "react-auth-kit";
 const useLoginMutate = () => {
   const dispatch = useDispatch();
   const axios = useAxios();
   const notify = notificationApi();
-  const signIn = useSignIn();
+  const sigIn = useSignIn();
   return useMutation({
     mutationFn: ({ data }: { data: object }) =>
       axios({ url: "/user/sign-in", body: data, method: "POST" }),
     onSuccess: (data: { token: string; user: AuthUser }): void => {
       const { token, user } = data;
+      sigIn({
+        token,
+        tokenType: "Bearer",
+        expiresIn: 3600,
+        authState: user,
+      });
       dispatch(
         setAuthorizationModalVisiblty({ open: false, isLoading: false })
       );
       localStorage.setItem("token", token);
-      signIn({
-        token,
-        expiresIn: 3600,
-        tokenType: "Bearer",
-        authState: user,
-      });
+
       notify("login");
     },
     onError: (error: { status: number }) => {
@@ -139,6 +140,7 @@ const useGetCoupon = () => {
     },
   });
 };
+
 export {
   useLoginMutate,
   useLoginWithGoogle,

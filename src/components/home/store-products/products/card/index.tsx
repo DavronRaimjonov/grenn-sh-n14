@@ -1,6 +1,7 @@
 import type { FC } from "react";
-import type { CartType } from "../../../../../@types";
+import type { AuthUser, CartType } from "../../../../../@types";
 import {
+  HeartFilled,
   HeartOutlined,
   SearchOutlined,
   ShoppingCartOutlined,
@@ -9,11 +10,21 @@ import { useNavigate } from "react-router-dom";
 import { useReduxDispatch } from "../../../../../hooks/useRedux";
 import { getProductShop } from "../../../../../redux/shop-slice";
 import { notificationApi } from "../../../../../generic/notification";
+import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
+import { setAuthorizationModalVisiblty } from "../../../../../redux/modal-slice";
+import { useHandler } from "../../../../../generic/handler";
 
 const Card: FC<CartType> = (props) => {
   const navigate = useNavigate();
   const dispatch = useReduxDispatch();
   const notify = notificationApi();
+  const isAuth = useIsAuthenticated()();
+  const auth: AuthUser = useAuthUser()() ?? {};
+  const { likeHandler } = useHandler();
+  const findLikeData = auth.wishlist?.filter(
+    (value) => value.flower_id === String(props._id)
+  )[0];
+  const isLiked = Boolean(findLikeData);
   const style_icons: string =
     "bg-[#FFFFFF] w-[35px] h-[35px] flex rounded-lg justify-center items-center  cursor-pointer text-[20px]";
   return (
@@ -34,8 +45,30 @@ const Card: FC<CartType> = (props) => {
           >
             <ShoppingCartOutlined className="text-[22px]" />
           </div>
-          <div className={style_icons}>
-            <HeartOutlined className="text-[22px]" />
+          <div
+            onClick={() => {
+              isAuth
+                ? likeHandler({
+                    isLiked,
+                    data: {
+                      route_path: props.category,
+                      flower_id: props._id,
+                    },
+                  })()
+                : dispatch(
+                    setAuthorizationModalVisiblty({
+                      open: true,
+                      loading: false,
+                    })
+                  );
+            }}
+            className={style_icons}
+          >
+            {isLiked ? (
+              <HeartFilled className="text-[22px] text-[red]" />
+            ) : (
+              <HeartOutlined className="text-[22px]" />
+            )}
           </div>
           <div
             onClick={() => navigate(`/shop/${props.category}/${props._id}`)}

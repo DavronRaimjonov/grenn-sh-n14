@@ -6,12 +6,17 @@ import { Badge } from "antd";
 import { BellOutlined, LoginOutlined } from "@ant-design/icons";
 import { useReduxDispatch, useReduxSelctor } from "../../hooks/useRedux";
 import { setAuthorizationModalVisiblty } from "../../redux/modal-slice";
+import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
+import { AuthUser } from "../../@types";
 
 const Navbar = () => {
   const dispatch = useReduxDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { shop } = useReduxSelctor((state) => state.shopSlice);
+  const auth: AuthUser = useAuthUser()() ?? {};
+  const isAuth = useIsAuthenticated()();
+
   const nav_link_style = `text-[16px] cursor-pointer`;
   return (
     <header className=" w-[90%] m-auto flex items-center justify-between py-5 border-b mb-5">
@@ -54,7 +59,13 @@ const Navbar = () => {
           className="w-[100px] h-[35px] bg-[#46a358] text-white rounded-md"
         >
           <p>
-            <LoginOutlined /> Login
+            {isAuth ? (
+              auth.name
+            ) : (
+              <>
+                <LoginOutlined /> Login
+              </>
+            )}
           </p>
         </button>
       </nav>

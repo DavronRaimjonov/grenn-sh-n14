@@ -2,6 +2,8 @@ import type { BlogTypeApi } from "../../@types";
 import { useLoader } from "../../generic/loading";
 import { useQueryHandler } from "../../hooks/useQuery";
 import BlogCard from "./blog-card";
+import { useReduxDispatch } from "../../hooks/useRedux";
+import { setAuthorizationModalVisiblty } from "../../redux/modal-slice";
 
 const BlogComponent = () => {
   const { data, isError, isLoading }: BlogTypeApi = useQueryHandler({
@@ -11,6 +13,7 @@ const BlogComponent = () => {
       search: "",
     },
   });
+  const dispatch = useReduxDispatch();
   const { blog_card_loading } = useLoader();
 
   return (
@@ -51,7 +54,14 @@ const BlogComponent = () => {
         all types of flowers: acrticles, notes, video, photos, podcasts or
         songs.
       </p>
-      <button className="bg-[#46A358] flex rounded-md items-center justify-center gap-1 text-base text-white m-auto mt-[30px] px-[15px] py-[10px]">
+      <button
+        onClick={() =>
+          dispatch(
+            setAuthorizationModalVisiblty({ open: true, loading: false })
+          )
+        }
+        className="bg-[#46A358] flex rounded-md items-center justify-center gap-1 text-base text-white m-auto mt-[30px] px-[15px] py-[10px]"
+      >
         Join Greenshop
       </button>
       <div className="grid grid-cols-3 gap-5 my-10">
