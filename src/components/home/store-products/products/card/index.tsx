@@ -18,7 +18,8 @@ const Card: FC<CartType> = (props) => {
   const navigate = useNavigate();
   const dispatch = useReduxDispatch();
   const notify = notificationApi();
-  const isAuth = useIsAuthenticated()();
+  const checkIsAuth = useIsAuthenticated();
+  const isAuth = checkIsAuth();
   const auth: AuthUser = useAuthUser()() ?? {};
   const { likeHandler } = useHandler();
   const findLikeData = auth.wishlist?.filter(
@@ -47,20 +48,22 @@ const Card: FC<CartType> = (props) => {
           </div>
           <div
             onClick={() => {
-              isAuth
-                ? likeHandler({
-                    isLiked,
-                    data: {
-                      route_path: props.category,
-                      flower_id: props._id,
-                    },
-                  })()
-                : dispatch(
-                    setAuthorizationModalVisiblty({
-                      open: true,
-                      loading: false,
-                    })
-                  );
+              if (isAuth) {
+                likeHandler({
+                  isLiked,
+                  data: {
+                    route_path: props.category,
+                    flower_id: props._id,
+                  },
+                })();
+              } else {
+                dispatch(
+                  setAuthorizationModalVisiblty({
+                    open: true,
+                    loading: false,
+                  })
+                );
+              }
             }}
             className={style_icons}
           >

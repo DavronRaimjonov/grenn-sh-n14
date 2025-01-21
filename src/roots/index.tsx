@@ -36,6 +36,9 @@ export const root = createBrowserRouter([
         path: "/blog/:id/:user_id",
         element: <Rendering />,
       },
+      {
+        path: ""
+      },
     ],
   },
 ]);
