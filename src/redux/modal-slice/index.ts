@@ -7,6 +7,7 @@ interface ModalAuthorizationType {
 
 interface InitialStateType {
   authorizationModalVisiblty: ModalAuthorizationType;
+  logOutModalVisiblty: boolean;
 }
 
 const initialState: InitialStateType = {
@@ -14,6 +15,7 @@ const initialState: InitialStateType = {
     open: false,
     isLoading: false,
   },
+  logOutModalVisiblty: false,
 };
 const modalSlice = createSlice({
   initialState,
@@ -22,8 +24,12 @@ const modalSlice = createSlice({
     setAuthorizationModalVisiblty(state, { payload }) {
       state.authorizationModalVisiblty = payload;
     },
+    setLogoutModalVisiblty(state) {
+      state.logOutModalVisiblty = !state.logOutModalVisiblty;
+    },
   },
 });
 
-export const { setAuthorizationModalVisiblty } = modalSlice.actions;
+export const { setAuthorizationModalVisiblty, setLogoutModalVisiblty } =
+  modalSlice.actions;
 export default modalSlice.reducer;

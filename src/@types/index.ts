@@ -157,3 +157,11 @@ export interface UserTypeApi {
   isLoading: boolean;
   isError: boolean;
 }
+
+export interface PathProfileType {
+  id: number;
+  title: string;
+  path: string;
+  Component: React.FC;
+  Icon: React.ForwardRefExoticComponent<any>;
+}

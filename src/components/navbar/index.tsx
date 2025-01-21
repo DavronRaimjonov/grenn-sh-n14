@@ -51,11 +51,15 @@ const Navbar = () => {
         </Badge>
 
         <button
-          onClick={() =>
-            dispatch(
-              setAuthorizationModalVisiblty({ open: true, isLoading: false })
-            )
-          }
+          onClick={() => {
+            if (isAuth) {
+              navigate("/profile");
+            } else {
+              dispatch(
+                setAuthorizationModalVisiblty({ open: true, isLoading: false })
+              );
+            }
+          }}
           className="w-[100px] h-[35px] bg-[#46a358] text-white rounded-md"
         >
           <p>
