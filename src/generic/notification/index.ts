@@ -13,7 +13,8 @@ type NotificationType =
   | "succses_coupon"
   | "shop_not"
   | "like"
-  | "disLike";
+  | "disLike"
+  | "edit";
 
 const notificationApi = () => {
   const nottify = (props: NotificationType) => {
@@ -53,6 +54,8 @@ const notificationApi = () => {
         return notification.success({ message: "Added like !" });
       case "disLike":
         return notification.success({ message: "Deleted like !" });
+      case "edit":
+        return notification.success({ message: "Edited user !" });
       //
       default:
         break;

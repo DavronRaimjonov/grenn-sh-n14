@@ -148,5 +148,6 @@ export {
   useRegisterWithGoogle,
   useGetCoupon,
 };
-// https://beckend-n14.onrender.com/api/features/coupon?access_token=64bebc1e2c6d3f056a8c85b7&coupon_code=AEMA_MEM
-// https://beckend-n14.onrender.com/api/features/coupon?access_token=64bebc1e2c6d3f056a8c85b7&coupon_code=AEMA_MEM
+
+//https://beckend-n14.onrender.com/api/user/account-details?access_token=64bebc1e2c6d3f056a8c85b7
+//https://beckend-n14.onrender.com/api/user/account-details?access_token=64bebc1e2c6d3f056a8c85b7

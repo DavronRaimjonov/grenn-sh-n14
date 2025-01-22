@@ -25,7 +25,6 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import Details from "../components/profile/profile-pages/details";
-import Products from "../components/home/store-products/products";
 import Adress from "../components/profile/profile-pages/adress";
 import Wishlist from "../components/profile/profile-pages/wishlist";
 import Order from "../components/profile/profile-pages/order";

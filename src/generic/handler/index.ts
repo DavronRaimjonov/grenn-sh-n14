@@ -58,8 +58,28 @@ const useHandler = () => {
 
     return like;
   };
+  const updeterUserDetails = async (data: object) => {
+    try {
+      signIn({
+        token: localStorage.getItem("token") as string,
+        tokenType: "Bearer",
+        expiresIn: 3600,
+        authState: {
+          ...auth,
+          ...data,
+        },
+      });
+      await axios({
+        url: "/user/account-details",
+        method: "POST",
+        body: data,
+      }).then(() => notify("edit"));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  return { likeHandler };
+  return { likeHandler, updeterUserDetails };
 };
 
 export { useHandler };

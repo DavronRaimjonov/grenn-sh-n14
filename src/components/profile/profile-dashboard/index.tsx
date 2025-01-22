@@ -6,7 +6,7 @@ import { useSignOut } from "react-auth-kit";
 
 const ProfileDashboard = () => {
   const navigate = useNavigate();
-  let activeStyle: string = "text-[#45A358] border-l-4 border-[#45A358]";
+  const activeStyle: string = "text-[#45A358] border-l-4 border-[#45A358]";
   const { pathname } = useLocation();
   const [modal, contextHolder] = Modal.useModal();
   const signOut = useSignOut();
