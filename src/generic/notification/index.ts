@@ -14,7 +14,8 @@ type NotificationType =
   | "shop_not"
   | "like"
   | "disLike"
-  | "edit";
+  | "edit"
+  | "edit_adress";
 
 const notificationApi = () => {
   const nottify = (props: NotificationType) => {
@@ -56,6 +57,8 @@ const notificationApi = () => {
         return notification.success({ message: "Deleted like !" });
       case "edit":
         return notification.success({ message: "Edited user !" });
+      case "edit_adress":
+        return notification.success({ message: "Edited Adress and user !" });
       //
       default:
         break;

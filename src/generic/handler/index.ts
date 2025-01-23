@@ -15,6 +15,18 @@ const useHandler = () => {
   const auth: AuthUser = useAuthUser()() ?? {};
   const signIn = useSignIn();
   const notify = notificationApi();
+
+  const updaterUser = (sholdUser: object) => {
+    signIn({
+      token: localStorage.getItem("token") as string,
+      tokenType: "Bearer",
+      expiresIn: 3600,
+      authState: {
+        ...auth,
+        ...sholdUser,
+      },
+    });
+  };
   const likeHandler = ({ data, isLiked }: LikeHandlerType) => {
     const like = async () => {
       signIn({
@@ -60,15 +72,7 @@ const useHandler = () => {
   };
   const updeterUserDetails = async (data: object) => {
     try {
-      signIn({
-        token: localStorage.getItem("token") as string,
-        tokenType: "Bearer",
-        expiresIn: 3600,
-        authState: {
-          ...auth,
-          ...data,
-        },
-      });
+      updaterUser(data);
       await axios({
         url: "/user/account-details",
         method: "POST",
@@ -79,7 +83,24 @@ const useHandler = () => {
     }
   };
 
-  return { likeHandler, updeterUserDetails };
+  const upadeterUserAdress = async ({
+    data,
+    e,
+  }: {
+    data: object;
+    e: object;
+  }) => {
+    try {
+      updaterUser(data);
+      await axios({
+        url: "/user/address",
+        method: "POST",
+        body: e,
+      }).then(() => notify("edit_adress"));
+    } catch (error) {}
+  };
+
+  return { likeHandler, updeterUserDetails, upadeterUserAdress };
 };
 
 export { useHandler };

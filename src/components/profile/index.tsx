@@ -6,7 +6,7 @@ const ProfileComponent = () => {
     <div className="w-[90%] m-auto py-5">
       <div className="flex gap-5">
         <ProfileDashboard />
-        <div>
+        <div className="w-ull">
           <Outlet />
         </div>
       </div>

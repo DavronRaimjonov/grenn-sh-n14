@@ -1,14 +1,73 @@
 import { Form, Input, Radio } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { useReduxDispatch } from "../../../hooks/useRedux";
+import { useReduxDispatch, useReduxSelctor } from "../../../hooks/useRedux";
 import { setAuthorizationModalVisiblty } from "../../../redux/modal-slice";
+import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
+import { AuthUser } from "../../../@types";
+import { useMakeOrderQuery } from "../../../hooks/useQuery/useQueryAction";
+import { useState } from "react";
+import OrderModal from "../../modals/order-modal";
 
+interface MakeOrderType {
+  name: string;
+  surname: string;
+  country: string;
+  street: string;
+  state: string;
+  email: string;
+  zip: string;
+  appartment: string;
+  town: string;
+  phone_number: string;
+  comment: string;
+  payment_method: string;
+}
 const OrdersForms = () => {
+  const [load, setLoad] = useState<boolean>(false);
+  console.log(load);
   const dispatch = useReduxDispatch();
+  const auth: AuthUser = useAuthUser()() ?? {};
+  const { shop } = useReduxSelctor((state) => state.shopSlice);
+  const total_price = shop.reduce(
+    (acc, value) => (acc += Number(value.userPrice)),
+    16
+  );
+  const isAuth: boolean = useIsAuthenticated()();
+  const { mutate } = useMakeOrderQuery();
+
+  const makeOrder = async (e: MakeOrderType) => {
+    setLoad(true);
+    const extra_shop_info = {
+      total: total_price,
+      method: e.payment_method,
+    };
+    await mutate({ shop_list: shop, billing_address: e, extra_shop_info });
+    setLoad(false);
+  };
+
   const radio_style: string =
     "bordant-radio-wrapper ant-radio-wrapper-checked ant-radio-wrapper-in-form-item border border-[#46A358] w-full h-[40px] flex items-center pl-[10px] rounded-lg css-k7429zer";
   return (
-    <Form layout="vertical" name="control-hooks">
+    <Form
+      onFinish={makeOrder}
+      fields={[
+        { name: ["name"], value: auth.name },
+        { name: ["surname"], value: auth.surname },
+        { name: ["country"], value: auth.billing_address?.country },
+        { name: ["street"], value: auth.billing_address?.street_address },
+        { name: ["state"], value: auth.billing_address?.state },
+        { name: ["email"], value: auth.email },
+        { name: ["zip"], value: auth.billing_address?.zip },
+        {
+          name: ["appartment"],
+          value: auth.billing_address?.additional_street_address,
+        },
+        { name: ["town"], value: auth.billing_address?.town },
+        { name: ["phone_number"], value: auth.phone_number },
+      ]}
+      layout="vertical"
+      name="control-hooks"
+    >
       <div className="grid grid-cols-2 gap-5">
         <div>
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
@@ -72,7 +131,7 @@ const OrdersForms = () => {
         </div>
         <div>
           <Form.Item
-            name="last_name"
+            name="surname"
             label="Last name"
             rules={[{ required: true }]}
           >
@@ -110,15 +169,18 @@ const OrdersForms = () => {
         <TextArea rows={10} placeholder="Type your first appartment..." />
       </Form.Item>
       <button
-        onClick={() =>
-          dispatch(
-            setAuthorizationModalVisiblty({ open: true, isLoading: false })
-          )
-        }
+        onClick={() => {
+          if (!isAuth) {
+            dispatch(
+              setAuthorizationModalVisiblty({ open: true, isLoading: false })
+            );
+          }
+        }}
         className="bg-[#46A358] flex rounded-md items-center justify-center gap-1 text-base text-white mt-[40px] w-full h-[40px]"
       >
         Place order
       </button>
+      <OrderModal />
     </Form>
   );
 };

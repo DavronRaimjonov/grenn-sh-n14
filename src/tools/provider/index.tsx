@@ -1,14 +1,17 @@
-import { ReactElement } from "react";
-import Modals from "../../components/modals";
+import type { FC } from "react";
+import { ConfigProvider } from "antd";
+import { AuthProvider } from "react-auth-kit";
+import { QueryClientProvider, QueryClient } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { Provider } from "react-redux";
 import { store } from "../../redux/store";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { AuthProvider } from "react-auth-kit";
-import { ReactQueryDevtools } from "react-query/devtools";
+import Modals from "../../components/modals";
+interface PropChildren {
+  children: React.ReactNode;
+}
 
-const queryClient = new QueryClient();
-
-const ProviderConfig = ({ children }: { children: ReactElement }) => {
+const ProviderConf: FC<PropChildren> = ({ children }) => {
+  const queryClient = new QueryClient();
   return (
     <AuthProvider
       authType="cookie"
@@ -16,14 +19,17 @@ const ProviderConfig = ({ children }: { children: ReactElement }) => {
       cookieDomain={window.location.hostname}
       cookieSecure={window.location.protocol === "https:"}
     >
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <Modals /> {children}
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools />
-        </Provider>
-      </QueryClientProvider>
+          <ConfigProvider>
+            <Modals />
+            {children}
+          </ConfigProvider>
+        </QueryClientProvider>
+      </Provider>
     </AuthProvider>
   );
 };
 
-export default ProviderConfig;
+export default ProviderConf;

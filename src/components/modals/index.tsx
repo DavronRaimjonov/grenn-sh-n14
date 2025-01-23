@@ -5,7 +5,7 @@ const Modals = () => {
   const { authorizationModalVisiblty } = useReduxSelctor(
     (state) => state.modalSlice
   );
-  return <>{authorizationModalVisiblty.open && <AuthorizartionModal />}</>;
+  return <>{authorizationModalVisiblty.open && <AuthorizartionModal />} </>;
 };
 
 export default Modals;

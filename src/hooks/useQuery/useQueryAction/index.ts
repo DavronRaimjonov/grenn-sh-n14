@@ -1,7 +1,10 @@
 import { useMutation } from "react-query";
 import { useAxios } from "../../useAxios";
 import { useDispatch } from "react-redux";
-import { setAuthorizationModalVisiblty } from "../../../redux/modal-slice";
+import {
+  setAuthorizationModalVisiblty,
+  setOrderModalVisiblty,
+} from "../../../redux/modal-slice";
 import { notificationApi } from "../../../generic/notification";
 import { signInWithGoogle } from "../../../config";
 import { useReduxDispatch } from "../../useRedux";
@@ -141,12 +144,25 @@ const useGetCoupon = () => {
   });
 };
 
+const useMakeOrderQuery = () => {
+  const axios = useAxios();
+  const dispatch = useReduxDispatch();
+  return useMutation({
+    mutationFn: (data: object) =>
+      axios({ url: "/order/make-order", method: "POST", body: { ...data } }),
+    onSuccess: () => {
+      dispatch(setOrderModalVisiblty());
+    },
+  });
+};
+
 export {
   useLoginMutate,
   useLoginWithGoogle,
   useRegisterMutate,
   useRegisterWithGoogle,
   useGetCoupon,
+  useMakeOrderQuery,
 };
 
 //https://beckend-n14.onrender.com/api/user/account-details?access_token=64bebc1e2c6d3f056a8c85b7

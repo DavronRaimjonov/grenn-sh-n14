@@ -14,6 +14,15 @@ export interface WishListItemType {
   flower_id: string;
   route_path: string;
 }
+
+interface BillingAdres {
+  country?: string;
+  town?: string;
+  street_address?: string;
+  additional_street_address?: string;
+  state?: string;
+  zip?: string;
+}
 export interface AuthUser {
   _id?: string;
   email?: string;
@@ -24,12 +33,7 @@ export interface AuthUser {
   phone_number?: string;
   wishlist?: WishListItemType[];
   username?: string;
-  country?: string;
-  town?: string;
-  street_address?: string;
-  additional_street_address?: string;
-  state?: string;
-  zip?: string;
+  billing_address?: BillingAdres;
   followers?: string[];
   permission?: {
     create: boolean;
@@ -163,5 +167,5 @@ export interface PathProfileType {
   title: string;
   path: string;
   Component: React.FC;
-  Icon: React.ForwardRefExoticComponent<any>;
+  Icon: React.ForwardRefExoticComponent<React.RefAttributes<HTMLDivElement>>;
 }

@@ -26,7 +26,7 @@ const ProfileDashboard = () => {
   };
 
   return (
-    <div className="bg-[#FBFBFB] h-fit text-xl p-[15px] w-[280px] max-md:hidden">
+    <div className="bg-[#FBFBFB] h-fit text-xl p-[15px] w-[350px] max-md:hidden">
       <h1 className="font-bold">My Account</h1>
       <div className="pb-5 border-b border-[#45A358]">
         {path_profile.map(({ Icon, title, path, id }) => (
