@@ -4,10 +4,15 @@ interface ModalAuthorizationType {
   open: boolean;
   isLoading: boolean;
 }
+interface OrderModalTtpe {
+  open: boolean;
+  isLoading: boolean;
+}
 
 interface InitialStateType {
   authorizationModalVisiblty: ModalAuthorizationType;
-  orderModalVisiblty: boolean;
+  orderModalVisiblty: OrderModalTtpe;
+  orderDetailVisiblty: boolean;
 }
 
 const initialState: InitialStateType = {
@@ -15,7 +20,11 @@ const initialState: InitialStateType = {
     open: false,
     isLoading: false,
   },
-  orderModalVisiblty: false,
+  orderModalVisiblty: {
+    open: false,
+    isLoading: false,
+  },
+  orderDetailVisiblty: false,
 };
 const modalSlice = createSlice({
   initialState,
@@ -24,12 +33,18 @@ const modalSlice = createSlice({
     setAuthorizationModalVisiblty(state, { payload }) {
       state.authorizationModalVisiblty = payload;
     },
-    setOrderModalVisiblty(state) {
-      state.orderModalVisiblty = !state.orderModalVisiblty;
+    setOrderModalVisiblty(state, { payload }) {
+      state.orderModalVisiblty = payload;
+    },
+    setOrderDetailsVisiblty(state) {
+      state.orderDetailVisiblty = !state.orderDetailVisiblty;
     },
   },
 });
 
-export const { setAuthorizationModalVisiblty, setOrderModalVisiblty } =
-  modalSlice.actions;
+export const {
+  setAuthorizationModalVisiblty,
+  setOrderModalVisiblty,
+  setOrderDetailsVisiblty,
+} = modalSlice.actions;
 export default modalSlice.reducer;

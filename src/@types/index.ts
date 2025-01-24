@@ -169,3 +169,30 @@ export interface PathProfileType {
   Component: React.FC;
   Icon: React.ForwardRefExoticComponent<React.RefAttributes<HTMLDivElement>>;
 }
+export interface MakeOrderType {
+  name: string;
+  surname: string;
+  country: string;
+  street: string;
+  state: string;
+  email: string;
+  zip: string;
+  appartment: string;
+  town: string;
+  phone_number: string;
+  comment: string;
+  payment_method: string;
+}
+
+
+export interface OrderType {
+  billing_address: BillingAdres;
+  created_at: string;
+  created_by: string;
+  extra_shop_info: {
+    total: number;
+    method: string;
+  };
+  shop_list: CartType[];
+  _id: string;
+}

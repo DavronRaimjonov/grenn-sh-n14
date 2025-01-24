@@ -3,30 +3,15 @@ import TextArea from "antd/es/input/TextArea";
 import { useReduxDispatch, useReduxSelctor } from "../../../hooks/useRedux";
 import { setAuthorizationModalVisiblty } from "../../../redux/modal-slice";
 import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
-import { AuthUser } from "../../../@types";
+import type { AuthUser, MakeOrderType } from "../../../@types";
 import { useMakeOrderQuery } from "../../../hooks/useQuery/useQueryAction";
-import { useState } from "react";
 import OrderModal from "../../modals/order-modal";
+import { LoadingOutlined } from "@ant-design/icons";
 
-interface MakeOrderType {
-  name: string;
-  surname: string;
-  country: string;
-  street: string;
-  state: string;
-  email: string;
-  zip: string;
-  appartment: string;
-  town: string;
-  phone_number: string;
-  comment: string;
-  payment_method: string;
-}
 const OrdersForms = () => {
-  const [load, setLoad] = useState<boolean>(false);
-  console.log(load);
   const dispatch = useReduxDispatch();
   const auth: AuthUser = useAuthUser()() ?? {};
+  const { orderModalVisiblty } = useReduxSelctor((state) => state.modalSlice);
   const { shop } = useReduxSelctor((state) => state.shopSlice);
   const total_price = shop.reduce(
     (acc, value) => (acc += Number(value.userPrice)),
@@ -36,13 +21,11 @@ const OrdersForms = () => {
   const { mutate } = useMakeOrderQuery();
 
   const makeOrder = async (e: MakeOrderType) => {
-    setLoad(true);
     const extra_shop_info = {
       total: total_price,
       method: e.payment_method,
     };
     await mutate({ shop_list: shop, billing_address: e, extra_shop_info });
-    setLoad(false);
   };
 
   const radio_style: string =
@@ -178,7 +161,7 @@ const OrdersForms = () => {
         }}
         className="bg-[#46A358] flex rounded-md items-center justify-center gap-1 text-base text-white mt-[40px] w-full h-[40px]"
       >
-        Place order
+        {orderModalVisiblty.isLoading ? <LoadingOutlined /> : "Place order"}
       </button>
       <OrderModal />
     </Form>

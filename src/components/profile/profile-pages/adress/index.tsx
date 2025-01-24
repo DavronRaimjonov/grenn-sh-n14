@@ -17,10 +17,9 @@ interface FormTypeAdress {
 }
 const Adress = () => {
   const auth: AuthUser = useAuthUser()() ?? {};
-  console.log(auth);
   const { upadeterUserAdress } = useHandler();
   const upadateAdressForm = (e: FormTypeAdress) => {
-    let updaterCookie = {
+    const updaterCookie = {
       name: e.name,
       surname: e.surname,
       phone_number: e.phone_number,

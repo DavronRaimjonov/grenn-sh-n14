@@ -97,7 +97,9 @@ const useHandler = () => {
         method: "POST",
         body: e,
       }).then(() => notify("edit_adress"));
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return { likeHandler, updeterUserDetails, upadeterUserAdress };

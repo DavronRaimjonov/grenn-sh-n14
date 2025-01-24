@@ -26,7 +26,7 @@ const ProductsProfile = () => {
           <Empty description={"No data"} />
         </div>
       ) : (
-        data?.map((value: CartType) => <Card key={value._id} {...value} />)
+        data?.map((value: CartType) => <Card key={value?._id} {...value} />)
       )}
     </div>
   );

@@ -14,7 +14,7 @@ const OrderModal = () => {
   const dispatch = useReduxDispatch();
   const navigate = useNavigate();
   const closeModal = () => {
-    dispatch(setOrderModalVisiblty());
+    dispatch(setOrderModalVisiblty({ open: false, isLoading: false }));
     navigate("/profile/track-order");
   };
 
@@ -24,7 +24,7 @@ const OrderModal = () => {
       title={"Order Confirmation"}
       footer={false}
       onCancel={closeModal}
-      open={orderModalVisiblty}
+      open={orderModalVisiblty.open}
     >
       <div className="flex items-start justify-between mt-5">
         <div className="border-r pr-4">
@@ -37,7 +37,7 @@ const OrderModal = () => {
         </div>
         <div className="border-r pr-4">
           <p>Total</p>
-          <h2 className="font-bold">$ {total_price}</h2>
+          <h2 className="font-bold">$ {total_price.toFixed(2)}</h2>
         </div>
         <div className="border-r pr-4">
           <p>Payment Method</p>
@@ -60,7 +60,7 @@ const OrderModal = () => {
       </div>
       <div className="flex items-center justify-between  border-b border-[#46A35880]">
         <h2>Total</h2>
-        <p className="font-bold text-[#46A358]">$ {total_price}</p>
+        <p className="font-bold text-[#46A358]">$ {total_price.toFixed(2)}</p>
       </div>
       <p className="text-center pt-4">
         Your order is currently being processed. You will receive an order

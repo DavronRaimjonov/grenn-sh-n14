@@ -1,14 +1,15 @@
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useAxios } from "../../useAxios";
 import { useDispatch } from "react-redux";
 import {
   setAuthorizationModalVisiblty,
+  setOrderDetailsVisiblty,
   setOrderModalVisiblty,
 } from "../../../redux/modal-slice";
 import { notificationApi } from "../../../generic/notification";
 import { signInWithGoogle } from "../../../config";
 import { useReduxDispatch } from "../../useRedux";
-import { AuthUser, CouponType } from "../../../@types";
+import { AuthUser, CouponType, OrderType } from "../../../@types";
 import { setCoupon, setIsLoading } from "../../../redux/coupon-slice";
 import { useSignIn } from "react-auth-kit";
 const useLoginMutate = () => {
@@ -45,7 +46,7 @@ const useLoginWithGoogle = () => {
   const axios = useAxios();
   const dispatch = useDispatch();
   const notify = notificationApi();
-
+  const signIn = useSignIn();
   return useMutation({
     mutationFn: async () => {
       const response = await signInWithGoogle();
@@ -56,11 +57,17 @@ const useLoginWithGoogle = () => {
       });
     },
     onSuccess: ({ data }: { data: { token: string; user: AuthUser } }) => {
+      const { token, user } = data;
+      signIn({
+        token,
+        tokenType: "Bearer",
+        expiresIn: 3600,
+        authState: user,
+      });
+      localStorage.setItem("token", token);
       dispatch(
         setAuthorizationModalVisiblty({ open: false, isLoading: false })
       );
-      const { token } = data;
-      localStorage.setItem("token", token);
       notify("login");
     },
     onError: (error: { status: number }) => {
@@ -74,11 +81,21 @@ const useRegisterMutate = () => {
   const axios = useAxios();
   const dispatch = useReduxDispatch();
   const notify = notificationApi();
+  const signIn = useSignIn();
+
   return useMutation({
     mutationFn: ({ data }: { data: object }) =>
       axios({ url: "/user/sign-up", method: "POST", body: data }),
-    onSuccess: ({ data }: { data: { token: string; user: AuthUser } }) => {
+    onSuccess: (data: { token: string; user: AuthUser }) => {
       console.log(data);
+      const { token, user } = data;
+      signIn({
+        token,
+        tokenType: "Bearer",
+        expiresIn: 3600,
+        authState: user,
+      });
+      localStorage.setItem("token", token);
       dispatch(
         setAuthorizationModalVisiblty({ open: false, isLoading: false })
       );
@@ -105,8 +122,18 @@ const useRegisterWithGoogle = () => {
       });
     },
     onSuccess: ({ data }: { data: { token: string; user: AuthUser } }) => {
-      const { token } = data;
+      const { token, user } = data;
+      const signIn = useSignIn();
+      signIn({
+        token,
+        tokenType: "Bearer",
+        expiresIn: 3600,
+        authState: user,
+      });
       localStorage.setItem("token", token);
+      dispatch(
+        setAuthorizationModalVisiblty({ open: false, isLoading: false })
+      );
       notify("register");
       dispatch(
         setAuthorizationModalVisiblty({ open: false, isLoading: false })
@@ -148,15 +175,53 @@ const useMakeOrderQuery = () => {
   const axios = useAxios();
   const dispatch = useReduxDispatch();
   return useMutation({
-    mutationFn: (data: object) =>
-      axios({ url: "/order/make-order", method: "POST", body: { ...data } }),
+    mutationFn: (data: object) => {
+      dispatch(setOrderModalVisiblty({ open: false, isLoading: true }));
+      return axios({
+        url: "/order/make-order",
+        method: "POST",
+        body: { ...data },
+      });
+    },
     onSuccess: () => {
-      dispatch(setOrderModalVisiblty());
+      dispatch(setOrderModalVisiblty({ open: true, isLoading: false }));
+    },
+  });
+};
+
+const useDeleteOrderForCashe = () => {
+  const queryClient = useQueryClient();
+  return ({ _id }: { _id: String }) => {
+    queryClient.setQueryData("order", (oldData: any) => {
+      return oldData.filter((value: OrderType) => value._id !== _id);
+    });
+  };
+};
+
+const useDeleteOrderMutate = () => {
+  const axios = useAxios();
+  const dispatch = useReduxDispatch();
+  const deleteCashe = useDeleteOrderForCashe();
+  const notify = notificationApi();
+  return useMutation({
+    mutationFn: ({ _id }: { _id: string }) => {
+      dispatch(setOrderDetailsVisiblty());
+      deleteCashe({ _id });
+      return axios({
+        url: "/order/delete-order",
+        method: "DELETE",
+        body: { _id },
+      });
+    },
+    onSuccess: () => {
+      notify("delete");
     },
   });
 };
 
 export {
+  useDeleteOrderMutate,
+  useDeleteOrderForCashe,
   useLoginMutate,
   useLoginWithGoogle,
   useRegisterMutate,

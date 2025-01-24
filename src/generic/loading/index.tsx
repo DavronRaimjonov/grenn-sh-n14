@@ -53,12 +53,20 @@ const useLoader = () => {
       </div>
     );
   };
+  const user_order_loader = () => {
+    return Array.from({ length: 5 }).map((_, idx) => (
+      <div className="mt-[20px]" key={idx}>
+        <Skeleton.Input className="!h-[50px] !w-full mb-[10px]" active={true} />
+      </div>
+    ));
+  };
   return {
     category_loader,
     cart_loading,
     image_loading,
     blog_card_loading,
     blog_id_loading,
+    user_order_loader,
   };
 };
 
