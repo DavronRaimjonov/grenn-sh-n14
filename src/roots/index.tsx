@@ -9,6 +9,7 @@ import Rendering from "../components/blog/rendering";
 import Profile from "../pages/profile";
 import PriveteRoute from "./privete-route";
 import { path_profile } from "../utils";
+import User from "../pages/user";
 
 export const root = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ export const root = createBrowserRouter([
             })),
           },
         ],
+      },
+      {
+        path: "/user/:_id",
+        element: <User />,
       },
     ],
   },

@@ -2,12 +2,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/icons/logo.svg";
 import search from "../../assets/icons/search.svg";
 import shop_img from "../../assets/icons/shop.svg";
-import { Badge } from "antd";
+import { Badge, Popover } from "antd";
 import { BellOutlined, LoginOutlined } from "@ant-design/icons";
 import { useReduxDispatch, useReduxSelctor } from "../../hooks/useRedux";
 import { setAuthorizationModalVisiblty } from "../../redux/modal-slice";
 import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
 import { AuthUser } from "../../@types";
+import Notification from "./notification";
 
 const Navbar = () => {
   const dispatch = useReduxDispatch();
@@ -43,7 +44,13 @@ const Navbar = () => {
       </nav>
       <nav className="flex items-center gap-8">
         <img className="cursor-pointer" src={search} alt="" />
-        <BellOutlined className="text-[24px] cursor-pointer" />
+        <Popover
+          content={<Notification />}
+          title={"Notifications"}
+          trigger="click"
+        >
+          <BellOutlined className="text-[24px] cursor-pointer" />
+        </Popover>
         <Badge className="cursor-pointer" count={shop.length}>
           <button onClick={() => navigate("/products-shop")}>
             <img src={shop_img} alt="" />

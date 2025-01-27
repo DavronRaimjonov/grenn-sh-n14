@@ -167,7 +167,7 @@ export interface PathProfileType {
   title: string;
   path: string;
   Component: React.FC;
-  Icon: React.ForwardRefExoticComponent<React.RefAttributes<HTMLDivElement>>;
+  Icon: React.ForwardRefExoticComponent<any>;
 }
 export interface MakeOrderType {
   name: string;
@@ -184,7 +184,6 @@ export interface MakeOrderType {
   payment_method: string;
 }
 
-
 export interface OrderType {
   billing_address: BillingAdres;
   created_at: string;
@@ -195,4 +194,10 @@ export interface OrderType {
   };
   shop_list: CartType[];
   _id: string;
+}
+
+export interface UserBodyTitleTyoe {
+  id: string;
+  title: string;
+  Component: React.FC;
 }

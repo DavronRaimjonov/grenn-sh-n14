@@ -15,7 +15,9 @@ type NotificationType =
   | "like"
   | "disLike"
   | "edit"
-  | "edit_adress";
+  | "edit_adress"
+  | "follow"
+  | "un-follow";
 
 const notificationApi = () => {
   const nottify = (props: NotificationType) => {
@@ -59,6 +61,10 @@ const notificationApi = () => {
         return notification.success({ message: "Edited user !" });
       case "edit_adress":
         return notification.success({ message: "Edited Adress and user !" });
+      case "follow":
+        return notification.success({ message: "Follow user !" });
+      case "un-follow":
+        return notification.success({ message: "Un follow user !" });
       //
       default:
         break;

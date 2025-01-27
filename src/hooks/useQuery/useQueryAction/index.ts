@@ -12,6 +12,7 @@ import { useReduxDispatch } from "../../useRedux";
 import { AuthUser, CouponType, OrderType } from "../../../@types";
 import { setCoupon, setIsLoading } from "../../../redux/coupon-slice";
 import { useSignIn } from "react-auth-kit";
+import { useHandler } from "../../../generic/handler";
 const useLoginMutate = () => {
   const dispatch = useDispatch();
   const axios = useAxios();
@@ -112,6 +113,8 @@ const useRegisterWithGoogle = () => {
   const axios = useAxios();
   const notify = notificationApi();
   const dispatch = useReduxDispatch();
+  const signIn = useSignIn();
+
   return useMutation({
     mutationFn: async () => {
       const response = await signInWithGoogle();
@@ -123,7 +126,6 @@ const useRegisterWithGoogle = () => {
     },
     onSuccess: ({ data }: { data: { token: string; user: AuthUser } }) => {
       const { token, user } = data;
-      const signIn = useSignIn();
       signIn({
         token,
         tokenType: "Bearer",
@@ -191,9 +193,13 @@ const useMakeOrderQuery = () => {
 
 const useDeleteOrderForCashe = () => {
   const queryClient = useQueryClient();
-  return ({ _id }: { _id: String }) => {
-    queryClient.setQueryData("order", (oldData: any) => {
-      return oldData.filter((value: OrderType) => value._id !== _id);
+  return ({ _id }: { _id: string }) => {
+    queryClient.setQueryData("order", (oldData: OrderType[] | undefined) => {
+      if (oldData) {
+        return oldData.filter((value: OrderType) => value._id !== _id);
+      } else {
+        return [];
+      }
     });
   };
 };
@@ -219,6 +225,34 @@ const useDeleteOrderMutate = () => {
   });
 };
 
+const useFollwerUser = () => {
+  const axios = useAxios();
+  const notify = notificationApi();
+  const { useUpdateFollowerCashe } = useHandler();
+  return useMutation({
+    mutationFn: (_id: string) => {
+      useUpdateFollowerCashe(_id);
+      return axios({ url: "/user/follow", method: "POST", body: { _id } }).then(
+        () => notify("follow")
+      );
+    },
+  });
+};
+const useUnFollowerUser = () => {
+  const axios = useAxios();
+  const notify = notificationApi();
+  const { useUpdateUnFollowerCashe } = useHandler();
+  return useMutation({
+    mutationFn: (_id: string) => {
+      useUpdateUnFollowerCashe(_id);
+      return axios({
+        url: "/user/unfollow",
+        method: "POST",
+        body: { _id },
+      }).then(() => notify("un-follow"));
+    },
+  });
+};
 export {
   useDeleteOrderMutate,
   useDeleteOrderForCashe,
@@ -228,6 +262,8 @@ export {
   useRegisterWithGoogle,
   useGetCoupon,
   useMakeOrderQuery,
+  useFollwerUser,
+  useUnFollowerUser,
 };
 
 //https://beckend-n14.onrender.com/api/user/account-details?access_token=64bebc1e2c6d3f056a8c85b7

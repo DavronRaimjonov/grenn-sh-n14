@@ -101,8 +101,21 @@ const useHandler = () => {
       console.log(error);
     }
   };
-
-  return { likeHandler, updeterUserDetails, upadeterUserAdress };
+  const useUpdateFollowerCashe = (follower_id: string) => {
+    return updaterUser({ followers: [...(auth.followers ?? []), follower_id] });
+  };
+  const useUpdateUnFollowerCashe = (follower_id: string) => {
+    return updaterUser({
+      followers: auth.followers?.filter((value) => value !== follower_id),
+    });
+  };
+  return {
+    likeHandler,
+    updeterUserDetails,
+    upadeterUserAdress,
+    useUpdateFollowerCashe,
+    useUpdateUnFollowerCashe,
+  };
 };
 
 export { useHandler };

@@ -3,7 +3,7 @@ import type { BlogTypeApi } from "../../@types";
 import { useLoader } from "../../generic/loading";
 import { useQueryHandler } from "../../hooks/useQuery";
 import BlogCard from "./blog-card";
-import BlogHeader from "./blog-heder";
+import BlogHeader from "./blog-header";
 import BlogSearch from "./blog-search";
 import { useSearchParamsHandler } from "../../generic/searchParams";
 

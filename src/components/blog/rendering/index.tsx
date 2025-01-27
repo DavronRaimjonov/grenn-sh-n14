@@ -1,23 +1,28 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQueryHandler } from "../../../hooks/useQuery";
 import type { BlogTypeApiItem, UserTypeApi } from "../../../@types";
-import { Avatar } from "antd";
+import { Avatar, Tooltip } from "antd";
 import { useLoader } from "../../../generic/loading";
 import {
   EyeOutlined,
   HeartOutlined,
   MessageOutlined,
   ShareAltOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
+import { useIsAuthenticated } from "react-auth-kit";
+import { useDispatch } from "react-redux";
+import { setAuthorizationModalVisiblty } from "../../../redux/modal-slice";
 
 const Rendering = () => {
   const { id, user_id } = useParams();
+  const dispatch = useDispatch();
   const {
     data: user,
     isLoading: isLoadingUser,
     isError: isErrorUser,
   }: UserTypeApi = useQueryHandler({
-    pathname: "user",
+    pathname: `user/${user_id}`,
     url: `/user/by_id/${user_id}`,
   });
   const { data, isLoading, isError }: BlogTypeApiItem = useQueryHandler({
@@ -40,6 +45,8 @@ const Rendering = () => {
       }
     }
   };
+  const navigate = useNavigate();
+  const isAuth: boolean = useIsAuthenticated()();
 
   const { blog_id_loading } = useLoader();
   const loading = isLoading || isError || isErrorUser || isLoadingUser;
@@ -51,7 +58,32 @@ const Rendering = () => {
         <div>
           <div className="flex item-end justify-between">
             <div className="flex items-center gap-4">
-              <Avatar className="w-[50px] h-[50px]" src={user?.profile_photo} />
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  if (isAuth) {
+                    navigate(`/user/${user_id}`);
+                  } else {
+                    dispatch(
+                      setAuthorizationModalVisiblty({
+                        open: true,
+                        isLoading: false,
+                      })
+                    );
+                  }
+                }}
+              >
+                <Tooltip
+                  placement="top"
+                  title={`${user?.name || ""} ${user?.surname || ""}`}
+                >
+                  <Avatar
+                    className="w-[50px] h-[50px]"
+                    src={user?.profile_photo}
+                    icon={<UserOutlined />}
+                  />
+                </Tooltip>
+              </div>
               <div>
                 <h2 className="font-bold text-[18px]">
                   {user?.name} {user?.surname}
