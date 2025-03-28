@@ -7,7 +7,7 @@ import { HeartOutlined } from "@ant-design/icons";
 const ShopInfo: FC<DataType> = ({ data, isLoading, isError }) => {
   const loader = isLoading || isError;
   const size_style =
-    "w-[28px] h-[28px] border border-[#EAEAEA] rounded-full hover:border-[#46A358] hover:text-[#46A358] transition-colors font-mediu";
+    "w-[28px] h-[28px] border border-[#EAEAEA] rounded-full hover:border-[#46A358] hover:text-[#46A358] transition-colors font-medium";
 
   console.log(data);
   return (

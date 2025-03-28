@@ -224,7 +224,7 @@ export const path_profile: PathProfileType[] = [
   },
 ];
 
-export let user_body_title: UserBodyTitleTyoe[] = [
+export const user_body_title: UserBodyTitleTyoe[] = [
   {
     id: "1",
     title: "About",

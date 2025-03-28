@@ -101,10 +101,10 @@ const useHandler = () => {
       console.log(error);
     }
   };
-  const useUpdateFollowerCashe = (follower_id: string) => {
+  const updateFollowerCashe = (follower_id: string) => {
     return updaterUser({ followers: [...(auth.followers ?? []), follower_id] });
   };
-  const useUpdateUnFollowerCashe = (follower_id: string) => {
+  const updateUnFollowerCashe = (follower_id: string) => {
     return updaterUser({
       followers: auth.followers?.filter((value) => value !== follower_id),
     });
@@ -113,8 +113,8 @@ const useHandler = () => {
     likeHandler,
     updeterUserDetails,
     upadeterUserAdress,
-    useUpdateFollowerCashe,
-    useUpdateUnFollowerCashe,
+    updateFollowerCashe,
+    updateUnFollowerCashe,
   };
 };
 

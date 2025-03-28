@@ -228,10 +228,10 @@ const useDeleteOrderMutate = () => {
 const useFollwerUser = () => {
   const axios = useAxios();
   const notify = notificationApi();
-  const { useUpdateFollowerCashe } = useHandler();
+  const { updateFollowerCashe } = useHandler();
   return useMutation({
     mutationFn: (_id: string) => {
-      useUpdateFollowerCashe(_id);
+      updateFollowerCashe(_id);
       return axios({ url: "/user/follow", method: "POST", body: { _id } }).then(
         () => notify("follow")
       );
@@ -241,10 +241,10 @@ const useFollwerUser = () => {
 const useUnFollowerUser = () => {
   const axios = useAxios();
   const notify = notificationApi();
-  const { useUpdateUnFollowerCashe } = useHandler();
+  const { updateUnFollowerCashe } = useHandler();
   return useMutation({
     mutationFn: (_id: string) => {
-      useUpdateUnFollowerCashe(_id);
+      updateUnFollowerCashe(_id);
       return axios({
         url: "/user/unfollow",
         method: "POST",

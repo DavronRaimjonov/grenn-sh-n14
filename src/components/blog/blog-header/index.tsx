@@ -6,7 +6,7 @@ const BlogHeader = () => {
   return (
     <div>
       <div className="w-full h-[300px] p-[50px] bg-[#F5F5F5] mt-3 flex max-2xl:h-[200px] max-md:h-[150px] justify-between">
-        <img
+        `<img
           className="w-[150px] h-full"
           src="https://firebasestorage.googleapis.com/v0/b/aema-image-upload.appspot.com/o/greenshop%2Fimages%2Fblog_avatar_1.png?alt=media&token=8174091c-24b5-42a0-886d-845bd15cccb9"
           alt=""
@@ -30,7 +30,7 @@ const BlogHeader = () => {
           className="w-[150px] h-ful"
           src="https://firebasestorage.googleapis.com/v0/b/aema-image-upload.appspot.com/o/greenshop%2Fimages%2Fblog_avatar_5.png?alt=media&token=f65d9df1-ea8b-4ebe-9d23-e3e768f0f701"
           alt=""
-        />
+        />`
       </div>
       <h1 className="mt-[50px] font-black text-center text-[6vw]">
         Monetize your content with

@@ -10,7 +10,7 @@ const UserComponent = () => {
     pathname: `user/${_id}/data`,
     url: `/user/by_id/${_id}`,
   });
-  let isLoad = isError || isLoading;
+  const isLoad = isError || isLoading;
   return (
     <div className="w-[90%] m-auto py-5">
       <UserHeader isLoad={isLoad} />
