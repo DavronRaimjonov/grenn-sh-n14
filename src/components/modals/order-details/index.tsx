@@ -6,7 +6,6 @@ import { CartType } from "../../../@types";
 import { useDeleteOrderMutate } from "../../../hooks/useQuery/useQueryAction";
 
 const OrderDetail = () => {
-  let a = 22;
   const { orderDetailVisiblty } = useReduxSelctor((state) => state.modalSlice);
   const { order } = useReduxSelctor((state) => state.orderSlice);
   const dispatch = useReduxDispatch();
