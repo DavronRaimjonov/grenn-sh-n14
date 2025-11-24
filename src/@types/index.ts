@@ -173,6 +173,7 @@ export interface PathProfileType {
 }
 export interface MakeOrderType {
   name: string;
+  id?: string;
   surname: string;
   country: string;
   street: string;
