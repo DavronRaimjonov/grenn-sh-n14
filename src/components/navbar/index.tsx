@@ -41,6 +41,14 @@ const Navbar = () => {
         >
           Blog
         </h3>
+        <h3
+          onClick={() => navigate("/blog")}
+          className={`${nav_link_style} ${
+            pathname === "/edit" && "text-[#46a358]"
+          }`}
+        >
+          Edit
+        </h3>
       </nav>
       <nav className="flex items-center gap-8">
         <img className="cursor-pointer" src={search} alt="" />
